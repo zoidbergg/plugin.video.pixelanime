@@ -1,6 +1,7 @@
 ﻿import xbmcaddon,os,requests,xbmc,xbmcgui,urllib,urllib2,re,xbmcplugin
 import sys
 import unicodedata
+import random
 
 def MENU():
 	addDir3("Popular",'popular',5,'http://megaicons.net/static/img/icons_sizes/358/999/256/retro-star-icon.png','','Series mais populares.')
@@ -9,9 +10,16 @@ def MENU():
 	addDir3("Series Ocidentais",'cat',6,'','','')#
 	addDir3("Filmes Orientais",'cat',6,'','','')#
 	addDir3("Filmes Ocidentais",'cat',6,'','','')#
-	addDir3("A-Z",'cata',7,'','','')
 	addDir3("Episodios Recentes", 'epa', 8,'','','')
-	addDir3("HENTAI", 'hent', 10, 'http://i.imgur.com/Xg25LSL.png','',"Para maiores de 18 anos.")
+	addDir3("Anime Aleatorio", 'ran', 12,'','','')
+	addDir3("Hentai", 'hent', 10, 'http://i.imgur.com/Xg25LSL.png','',"Para maiores de 18 anos.")
+	addDir3("A-Z",'cata',7,'','','')
+
+#12
+def Random():
+	number =  random.randint(0,664)
+	url_random ='http://anituga.xyz/index.php?newsid=%s'%number
+	INSIDEmovie(url_random)
 
 #10
 def HentaiList():
@@ -104,11 +112,17 @@ def INSIDEmovie(url):
 	i = 1
 	r = requests.get(url)
 	#Get source of video
+	image = re.compile('(?s)(?<=<div class=\"movie-poster\">).*?(?=<\/div>)').findall(r.content)
+	normal1 = unicode(image[0], "utf-8")
+	rline = unicodedata.normalize('NFC', normal1).encode('utf8','ignore')
+	regex = re.compile('<img src="(.+?)" alt="(.+?)" />',re.DOTALL).findall(str(rline))
+	for image, name in regex:
+		image2=image
 	match = re.compile('<source src="(.+?)"').findall(r.content)
 	for url in match:
 		#addDir3("Episode %d"%(i), url, '', '', '', '')
 		#Play video and put the episode number
-		addLink("Episode %d"%(i), url, '', '', '')
+		addLink("Episode %d"%(i), url, image2, '', '')
 		i += 1
 
 #1 Function to play video
@@ -249,5 +263,8 @@ elif mode==10:
 
 elif mode==11:
 		NextPage(url)
+
+elif mode==12:
+		Random()
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

@@ -4,6 +4,27 @@ import unicodedata
 import doctest
 import urlparse
 import cgi
+import random
+
+def Random():
+	i = 1
+	number =  random.randint(0,664)
+	url_random ='http://anituga.xyz/index.php?newsid=%s'%number
+	r = requests.get(url_random)
+	image = re.compile('(?s)(?<=<div class=\"movie-poster\">).*?(?=<\/div>)').findall(r.content)
+	normal1 = unicode(image[0], "utf-8")
+	rline = unicodedata.normalize('NFC', normal1).encode('utf8','ignore')
+	regex = re.compile('<img src="(.+?)" alt="(.+?)" />',re.DOTALL).findall(str(rline))
+	
+	for image, name in regex:
+		print name
+		print image
+
+	match = re.compile('<source src="(.+?)"').findall(r.content)
+	for url in match:
+		print url
+		i += 1
+
 
 def cat1(url):
 	url2 = url
@@ -26,5 +47,5 @@ def next(url):
 	else:
 		print("finish")
 
+Random()
 #cat1("http://anituga.xyz/index.php?cstart=1&do=cat&category=misterio")
-cat1("http://anituga.xyz/index.php?cstart=1&do=cat&category=misterio")
