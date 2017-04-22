@@ -1,19 +1,72 @@
+# -*- coding: utf-8 -*-
 import xbmcaddon,os,requests,xbmc,xbmcgui,urllib,urllib2,re,xbmcplugin
 import sys
 import unicodedata
 import random
 
 def MENU():
-	addDir3("Popular",'popular',5,'http://megaicons.net/static/img/icons_sizes/358/999/256/retro-star-icon.png','','Series mais populares.')
-	addDir3("Categorias",'cat',6,'http://i.imgur.com/pTcI3jz.png','','Categorias de Series e Filmes.')
-	addDir3("Series Orientais",'cat',6,'','','')#
-	addDir3("Series Ocidentais",'cat',6,'','','')#
-	addDir3("Filmes Orientais",'cat',6,'','','')#
-	addDir3("Filmes Ocidentais",'cat',6,'','','')#
-	addDir3("Episodios Recentes", 'epa', 8,'','','')
-	addDir3("Anime Aleatorio", 'ran', 12,'','','')
-	addDir3("Hentai", 'hent', 10, 'http://i.imgur.com/Xg25LSL.png','',"Para maiores de 18 anos.")
-	addDir3("A-Z",'cata',7,'','','')
+	addDir3("Popular",'popular',5,'http://megaicons.net/static/img/icons_sizes/358/999/256/retro-star-icon.png','http://i.imgur.com/a3TSg6N.jpg','Popular')
+	addDir3("Categorias",'cat',6,'http://i.imgur.com/pTcI3jz.png','http://i.imgur.com/a3TSg6N.jpg','Categorias.')
+	addDir3("Series Orientais",'cat',13,'http://i.imgur.com/3aNPYFZ.png','http://i.imgur.com/a3TSg6N.jpg','')#
+	addDir3("Series Ocidentais",'cat',14,'http://i.imgur.com/3aNPYFZ.png','http://i.imgur.com/a3TSg6N.jpg','')#
+	addDir3("Filmes Orientais",'cat',15,'http://i.imgur.com/3aNPYFZ.png','http://i.imgur.com/a3TSg6N.jpg','')#
+	addDir3("Filmes Ocidentais",'cat',16,'http://i.imgur.com/3aNPYFZ.png','http://i.imgur.com/a3TSg6N.jpg','')#
+	#addDir3("Episodios Recentes", 'http://anituga.xyz/v/index.php?cstart=1&', 8,'http://i.imgur.com/N3COLLn.png','http://i.imgur.com/a3TSg6N.jpg','Recents')
+	addDir3("Random Anime", 'ran', 12,'http://i.imgur.com/5awo5tw.png','http://i.imgur.com/a3TSg6N.jpg','Random')
+	addDir3("Hentai", 'hent', 10, 'http://i.imgur.com/Xg25LSL.png','http://i.imgur.com/a3TSg6N.jpg',"Para maiores de 18 anos.")
+	addDir3("A-Z",'cata',7,'http://i.imgur.com/OdwGEPM.png','http://i.imgur.com/a3TSg6N.jpg','A-Z')
+
+#16
+def FOcidental():
+	site = "http://anituga.xyz/filmes-ocidentais"
+	r = requests.get(site)
+	match = re.compile('<div class="movie-img img-box pseudo-link" data-link="(.+?)">.+?<img src="(.+?)" alt="(.+?)" />',re.DOTALL).findall(r.content)
+	#Get the next page link
+	next_page = re.compile('<span class="pnext"><a href="(.+?)"><span class="fa fa-angle-double-right"></span></a></span>',re.DOTALL).findall(r.content)
+	for  url, image, name in match:
+		addDir3(name, url, 3, image, image, '')
+	#Checks if next_page is empty, if there is a next page and add directory if so
+	if next_page:
+		addDir("Next Page", site, 11,'')
+
+#15
+def FOriental():
+	site = "http://anituga.xyz/filmes-orientais"
+	r = requests.get(site)
+	match = re.compile('<div class="movie-img img-box pseudo-link" data-link="(.+?)">.+?<img src="(.+?)" alt="(.+?)" />',re.DOTALL).findall(r.content)
+	#Get the next page link
+	next_page = re.compile('<span class="pnext"><a href="(.+?)"><span class="fa fa-angle-double-right"></span></a></span>',re.DOTALL).findall(r.content)
+	for  url, image, name in match:
+		addDir3(name, url, 3, image, image, '')
+	#Checks if next_page is empty, if there is a next page and add directory if so
+	if next_page:
+		addDir("Next Page", site, 11,'')
+
+#14
+def Ocidental():
+	site = "http://anituga.xyz/series-ocidentais"
+	r = requests.get(site)
+	match = re.compile('<div class="movie-img img-box pseudo-link" data-link="(.+?)">.+?<img src="(.+?)" alt="(.+?)" />',re.DOTALL).findall(r.content)
+	#Get the next page link
+	next_page = re.compile('<span class="pnext"><a href="(.+?)"><span class="fa fa-angle-double-right"></span></a></span>',re.DOTALL).findall(r.content)
+	for  url, image, name in match:
+		addDir3(name, url, 3, image, image, '')
+	#Checks if next_page is empty, if there is a next page and add directory if so
+	if next_page:
+		addDir("Next Page", site, 11,'')
+
+#13
+def Oriental():
+	site = "http://anituga.xyz/series-orientais"
+	r = requests.get(site)
+	match = re.compile('<div class="movie-img img-box pseudo-link" data-link="(.+?)">.+?<img src="(.+?)" alt="(.+?)" />',re.DOTALL).findall(r.content)
+	#Get the next page link
+	next_page = re.compile('<span class="pnext"><a href="(.+?)"><span class="fa fa-angle-double-right"></span></a></span>',re.DOTALL).findall(r.content)
+	for  url, image, name in match:
+		addDir3(name, url, 3, image, image, '')
+	#Checks if next_page is empty, if there is a next page and add directory if so
+	if next_page:
+		addDir("Next Page", site, 11,'')
 
 #12
 def Random():
@@ -29,10 +82,28 @@ def HentaiList():
 	#Get the next page link
 	next_page = re.compile('<span class="pnext"><a href="(.+?)"><span class="fa fa-angle-double-right"></span></a></span>',re.DOTALL).findall(r.content)
 	for  url, image, name in match:
-		addDir3(name, url, 3, image, '', '')
+		addDir3(name, url, 3, image, image, '')
 	#Checks if next_page is empty, if there is a next page and add directory if so
 	if next_page:
 		addDir("Next Page", site, 11,'')
+
+################################      V2       ######################################################################################
+#17
+def NextPageV2(url):
+	#Get html content
+	r = requests.get(url)
+	#Get next page link
+	next_page = re.compile('<span\sclass="pnext"><a\shref="(.+?)"><span\sclass="fa\sfa-angle-double-right"></span></a></span>').findall(r.content)
+	#Kinda convert list to string
+	next_page2 = ''.join(next_page)
+	#EscapingHtml
+	next_page2 = next_page2.replace("&lt;", "<")
+	next_page2 = next_page2.replace("&gt;", ">")
+	next_page2 = next_page2.replace("&amp;", "&")
+	#Verify if link exists
+	if next_page2:
+		addDir(next_page2, next_page2,'','')
+		#LastEp(next_page2)
 
 #9
 def INSIDEmovie2(url):
@@ -40,15 +111,20 @@ def INSIDEmovie2(url):
 	#Get the sourrce of movie in V2
 	match = re.compile('<iframe src="(.+?)" scrolling="no" frameborder="0" width="890" height="501" allowfullscreen></iframe>').findall(r.content)
 	for url in match:
-		#addDir3("Episode %d"%(i), url, '', '', '', '')
+		#addDir3("Episode %d"%(i), url, 1, '', '', '')
+		#Play video and put the episode number
+		#addLink(url, url, '', '', '')
 		PLAY(url)
 
 #8
-def LastEp():
-	r = requests.get('http://anituga.xyz/v/index.php?cstart=1&')
+def LastEp(url):
+	r = requests.get(url)
+	next_page = re.compile('<span class="pnext"><a href="(.+?)"><span class="fa fa-angle-double-right"></span></a></span>',re.DOTALL).findall(r.content)
 	match = re.compile('<a class="item-link" href="(.+?)">.+?<img class="xfieldimage poster" src="(.+?)" alt="" />.+?<div class="item-title">(.+?)</div>',re.DOTALL).findall(r.content)
-	for  url, image, name in match:
-		addDir3(name, url, 9, 'http://anituga.xyz%s'%image, '', '')
+	for url, image, name  in match:
+		addDir3(name, url, 9, image, image, '')
+	addDir("Next Page", str(next_page), 17, '')
+##############################################################################################################################################
 
 #7
 def CategoriasAZ():
@@ -76,7 +152,7 @@ def Popular():
 	r = requests.get('http://anituga.xyz')
 	match = re.compile('<a class="carou-item img-box" href="(.+?)">.+?<img src="(.+?)" alt="(.+?)" />',re.DOTALL).findall(r.content)
 	for  url, image, name in match:
-		addDir3(name, url, 3, image, '', '')
+		addDir3(name, url, 3, image, image, '')
 
 #4
 def INSIDEcategorie(url):
@@ -85,9 +161,9 @@ def INSIDEcategorie(url):
 	match = re.compile('<div class="movie-img img-box pseudo-link" data-link="(.+?)">.+?<img src="(.+?)" alt="(.+?)" />',re.DOTALL).findall(r.content)
 	next_page = re.compile('<span\sclass="pnext"><a\shref="(.+?)"><span\sclass="fa\sfa-angle-double-right"></span></a></span>').findall(r.content)
 	for url, image, name  in match:
-		addDir3(name, url, 3, image, '', '')
+		addDir3(name, url, 3, image, image, '')
 	if next_page:
-		addDir("Next Page", url2, 11, '')
+		addDir("Next Page", url2, 17, '')
 	
 #11
 def NextPage(url):
@@ -105,7 +181,6 @@ def NextPage(url):
 	if next_page2:
 		INSIDEcategorie(next_page2)
 
-
 #3 
 def INSIDEmovie(url):
 	#Counter to print episode number
@@ -120,14 +195,14 @@ def INSIDEmovie(url):
 		image2=image
 	match = re.compile('<source src="(.+?)"').findall(r.content)
 	for url in match:
-		#addDir3("Episode %d"%(i), url, '', '', '', '')
+		#addDir3("Episode %d"%(i), url, 1, '', '', '')
 		#Play video and put the episode number
-		addLink("Episode %d"%(i), url, image2, '', '')
+		addLink(name+" - Episode %d"%(i), url, image2, '', image2)
 		i += 1
 
 #1 Function to play video
 def PLAY(url):
-		addLink('Play', url, '', '', '')
+		addLink(url, url, '', '', '')
 
 
 #PLAY VIDEO		
@@ -253,7 +328,7 @@ elif mode==7:
 		CategoriasAZ()
 
 elif mode==8:
-		LastEp()
+		LastEp(url)
 		
 elif mode==9:
 		INSIDEmovie2(url)
@@ -266,5 +341,17 @@ elif mode==11:
 
 elif mode==12:
 		Random()
+
+elif mode==13:
+		Oriental()
+
+elif mode==14:
+		Ocidental()
+
+elif mode==15:
+		FOriental()
+
+elif mode==16:
+		FOcidental()
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))

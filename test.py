@@ -47,5 +47,22 @@ def next(url):
 	else:
 		print("finish")
 
-Random()
+def insidev2():
+	r = requests.get("http://anituga.xyz/v/index.php?newsid=150")
+	#Get the sourrce of movie in V2
+	match = re.compile('<iframe src=\"(.+?)\" scrolling=\"no\" frameborder=\"0\" width=\"890\" height=\"501\" allowfullscreen></iframe>').findall(r.content)
+	for url in match:
+		#addDir3("Episode %d"%(i), url, 1, '', '', '')
+		#Play video and put the episode number
+		print url
+
+def v12():
+	r = requests.get('http://anituga.xyz/v/index.php?cstart=1&')
+	match = re.compile('<a class="item-link" href="(.+?)">.+?<img class="xfieldimage poster" src="(.+?)" alt="" />.+?<div class="item-title">(.+?)</div>',re.DOTALL).findall(r.content)
+	for  url, image, name in match:
+		#print name
+		#print image
+		print url
+		#v2(url)
+v12()
 #cat1("http://anituga.xyz/index.php?cstart=1&do=cat&category=misterio")
