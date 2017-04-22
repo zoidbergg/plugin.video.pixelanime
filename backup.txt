@@ -3,26 +3,33 @@ import sys
 import unicodedata
 
 def MENU():
-	addDir3("Popular",'popular',5,'','','')
-	addDir3("Categorias",'cat',6,'','','')
+	addDir3("Popular",'popular',5,'http://megaicons.net/static/img/icons_sizes/358/999/256/retro-star-icon.png','','Series mais populares.')
+	addDir3("Categorias",'cat',6,'http://i.imgur.com/pTcI3jz.png','','Categorias de Series e Filmes.')
+	addDir3("Series Orientais",'cat',6,'','','')#
+	addDir3("Series Ocidentais",'cat',6,'','','')#
+	addDir3("Filmes Orientais",'cat',6,'','','')#
+	addDir3("Filmes Ocidentais",'cat',6,'','','')#
 	addDir3("A-Z",'cata',7,'','','')
 	addDir3("Episodios Recentes", 'epa', 8,'','','')
-	addDir3("HENTAI", 'hent', 10,'','','')
+	addDir3("HENTAI", 'hent', 10, 'http://i.imgur.com/Xg25LSL.png','',"Para maiores de 18 anos.")
 
 #10
 def HentaiList():
 	site = "http://anituga.xyz/index.php?cstart=1&do=cat&category=hentai"
 	r = requests.get(site)
 	match = re.compile('<div class="movie-img img-box pseudo-link" data-link="(.+?)">.+?<img src="(.+?)" alt="(.+?)" />',re.DOTALL).findall(r.content)
+	#Get the next page link
 	next_page = re.compile('<span class="pnext"><a href="(.+?)"><span class="fa fa-angle-double-right"></span></a></span>',re.DOTALL).findall(r.content)
 	for  url, image, name in match:
 		addDir3(name, url, 3, image, '', '')
+	#Checks if next_page is empty, if there is a next page and add directory if so
 	if next_page:
-		addDir("Next Page",site,11,'')
+		addDir("Next Page", site, 11,'')
 
 #9
 def INSIDEmovie2(url):
 	r = requests.get(url)
+	#Get the sourrce of movie in V2
 	match = re.compile('<iframe src="(.+?)" scrolling="no" frameborder="0" width="890" height="501" allowfullscreen></iframe>').findall(r.content)
 	for url in match:
 		#addDir3("Episode %d"%(i), url, '', '', '', '')
@@ -72,31 +79,39 @@ def INSIDEcategorie(url):
 	for url, image, name  in match:
 		addDir3(name, url, 3, image, '', '')
 	if next_page:
-		addDir("Next Page",url2,11,'')
+		addDir("Next Page", url2, 11, '')
 	
 #11
 def NextPage(url):
+	#Get html content
 	r = requests.get(url)
+	#Get next page link
 	next_page = re.compile('<span\sclass="pnext"><a\shref="(.+?)"><span\sclass="fa\sfa-angle-double-right"></span></a></span>').findall(r.content)
+	#Kinda convert list to string
 	next_page2 = ''.join(next_page)
+	#EscapingHtml
 	next_page2 = next_page2.replace("&lt;", "<")
 	next_page2 = next_page2.replace("&gt;", ">")
 	next_page2 = next_page2.replace("&amp;", "&")
+	#Verify if link exists
 	if next_page2:
 		INSIDEcategorie(next_page2)
 
 
 #3 
 def INSIDEmovie(url):
+	#Counter to print episode number
 	i = 1
 	r = requests.get(url)
+	#Get source of video
 	match = re.compile('<source src="(.+?)"').findall(r.content)
 	for url in match:
 		#addDir3("Episode %d"%(i), url, '', '', '', '')
+		#Play video and put the episode number
 		addLink("Episode %d"%(i), url, '', '', '')
 		i += 1
 
-#1
+#1 Function to play video
 def PLAY(url):
 		addLink('Play', url, '', '', '')
 
@@ -128,11 +143,8 @@ def get_params():
                                 param[splitparams[0]]=splitparams[1]
                                 
         return param       
-#################################################################################################################
 
-#                               NEED BELOW CHANGED
-
-  
+#Functions to Add directories  
 def addDir(name,url,mode,iconimage):
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
         ok=True
@@ -147,8 +159,7 @@ def addDir2(name,url,mode,iconimage):
         liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
         liz.setInfo( type="Video", infoLabels={ "Title": name } )
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=False)
-        return ok
-###############################################################################################################        
+        return ok     
 
 def addDir3(name,url,mode,iconimage,fanart,description):
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)+"&fanart="+urllib.quote_plus(fanart)+"&description="+urllib.quote_plus(description)
@@ -158,7 +169,7 @@ def addDir3(name,url,mode,iconimage,fanart,description):
         liz.setProperty( "Fanart_Image", fanart )
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
         return ok
-
+##################################################################################################################
 
 def setView(content, viewType):
     # set content type so library shows more views and info
@@ -166,10 +177,7 @@ def setView(content, viewType):
         xbmcplugin.setContent(int(sys.argv[1]), content)
     if ADDON.getSetting('auto-view')=='true':
         xbmc.executebuiltin("Container.SetViewMode(%s)" % viewType )
- 
-
-
-              
+        
 params=get_params()
 url=None
 name=None
@@ -177,7 +185,6 @@ mode=None
 iconimage=None
 fanart=None
 description=None
-
 
 try:
         url=urllib.unquote_plus(params["url"])
@@ -203,12 +210,12 @@ try:
         description=urllib.unquote_plus(params["description"])
 except:
         pass
-
    
 print "Mode: "+str(mode)
 print "URL: "+str(url)
 print "Name: "+str(name)
 
+#Main Menu to call selected functions
 if mode==None or url==None or len(url)<1:
         print ""
         MENU()
