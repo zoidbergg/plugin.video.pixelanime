@@ -19,7 +19,7 @@ def MENU():
 #16
 def FOcidental():
 	site = "http://anituga.xyz/filmes-ocidentais"
-	r = requests.get(site)
+	r = requests.get(site, headers)
 	match = re.compile('<div class="movie-img img-box pseudo-link" data-link="(.+?)">.+?<img src="(.+?)" alt="(.+?)" />',re.DOTALL).findall(r.content)
 	#Get the next page link
 	next_page = re.compile('<span class="pnext"><a href="(.+?)"><span class="fa fa-angle-double-right"></span></a></span>',re.DOTALL).findall(r.content)
@@ -32,7 +32,7 @@ def FOcidental():
 #15
 def FOriental():
 	site = "http://anituga.xyz/filmes-orientais"
-	r = requests.get(site)
+	r = requests.get(site, headers)
 	match = re.compile('<div class="movie-img img-box pseudo-link" data-link="(.+?)">.+?<img src="(.+?)" alt="(.+?)" />',re.DOTALL).findall(r.content)
 	#Get the next page link
 	next_page = re.compile('<span class="pnext"><a href="(.+?)"><span class="fa fa-angle-double-right"></span></a></span>',re.DOTALL).findall(r.content)
@@ -45,7 +45,7 @@ def FOriental():
 #14
 def Ocidental():
 	site = "http://anituga.xyz/series-ocidentais"
-	r = requests.get(site)
+	r = requests.get(site, headers)
 	match = re.compile('<div class="movie-img img-box pseudo-link" data-link="(.+?)">.+?<img src="(.+?)" alt="(.+?)" />',re.DOTALL).findall(r.content)
 	#Get the next page link
 	next_page = re.compile('<span class="pnext"><a href="(.+?)"><span class="fa fa-angle-double-right"></span></a></span>',re.DOTALL).findall(r.content)
@@ -58,7 +58,7 @@ def Ocidental():
 #13
 def Oriental():
 	site = "http://anituga.xyz/series-orientais"
-	r = requests.get(site)
+	r = requests.get(site, headers)
 	match = re.compile('<div class="movie-img img-box pseudo-link" data-link="(.+?)">.+?<img src="(.+?)" alt="(.+?)" />',re.DOTALL).findall(r.content)
 	#Get the next page link
 	next_page = re.compile('<span class="pnext"><a href="(.+?)"><span class="fa fa-angle-double-right"></span></a></span>',re.DOTALL).findall(r.content)
@@ -77,7 +77,7 @@ def Random():
 #10
 def HentaiList():
 	site = "http://anituga.xyz/index.php?cstart=1&do=cat&category=hentai"
-	r = requests.get(site)
+	r = requests.get(site, headers)
 	match = re.compile('<div class="movie-img img-box pseudo-link" data-link="(.+?)">.+?<img src="(.+?)" alt="(.+?)" />',re.DOTALL).findall(r.content)
 	#Get the next page link
 	next_page = re.compile('<span class="pnext"><a href="(.+?)"><span class="fa fa-angle-double-right"></span></a></span>',re.DOTALL).findall(r.content)
@@ -91,7 +91,7 @@ def HentaiList():
 #17
 def NextPageV2(url):
 	#Get html content
-	r = requests.get(url)
+	r = requests.get(url, headers)
 	#Get next page link
 	next_page = re.compile('<span\sclass="pnext"><a\shref="(.+?)"><span\sclass="fa\sfa-angle-double-right"></span></a></span>').findall(r.content)
 	#Kinda convert list to string
@@ -107,7 +107,7 @@ def NextPageV2(url):
 
 #9
 def INSIDEmovie2(url):
-	r = requests.get(url)
+	r = requests.get(url, headers)
 	#Get the sourrce of movie in V2
 	match = re.compile('<iframe src="(.+?)" scrolling="no" frameborder="0" width="890" height="501" allowfullscreen></iframe>').findall(r.content)
 	for url in match:
@@ -118,7 +118,7 @@ def INSIDEmovie2(url):
 
 #8
 def LastEp(url):
-	r = requests.get(url)
+	r = requests.get(url, headers)
 	next_page = re.compile('<span class="pnext"><a href="(.+?)"><span class="fa fa-angle-double-right"></span></a></span>',re.DOTALL).findall(r.content)
 	match = re.compile('<a class="item-link" href="(.+?)">.+?<img class="xfieldimage poster" src="(.+?)" alt="" />.+?<div class="item-title">(.+?)</div>',re.DOTALL).findall(r.content)
 	for url, image, name  in match:
@@ -128,7 +128,7 @@ def LastEp(url):
 
 #7
 def CategoriasAZ():
-	r = requests.get('http://anituga.xyz')
+	r = requests.get('http://anituga.xyz', headers)
 	match = re.compile('(?s)(?<=<div class=\"flex-row\">).*?(?=<\/div>)',re.DOTALL).findall(r.content)
 	normal1 = unicode(match[0], "utf-8")
 	rline = unicodedata.normalize('NFC', normal1).encode('utf8','ignore')
@@ -139,7 +139,7 @@ def CategoriasAZ():
 
 #6
 def Categorias():
-	r = requests.get('http://anituga.xyz')
+	r = requests.get('http://anituga.xyz', headers)
 	match = re.compile('(?s)(?<=<ul class=\"hidden-menu clearfix\">).*?(?=<\/ul>)',re.DOTALL).findall(r.content)
 	# match = re.compile('(?s)(?<=<div class=\"flex-row\">).*?(?=<\/div>)',re.DOTALL).findall(r.content)
 	normal1 = unicode(match[0], "utf-8")
@@ -149,7 +149,7 @@ def Categorias():
 		addDir(name, 'http://anituga.xyz%s'%url, 4, '')
 #5		
 def Popular():
-	r = requests.get('http://anituga.xyz')
+	r = requests.get('http://anituga.xyz', headers)
 	match = re.compile('<a class="carou-item img-box" href="(.+?)">.+?<img src="(.+?)" alt="(.+?)" />',re.DOTALL).findall(r.content)
 	for  url, image, name in match:
 		addDir3(name, url, 3, image, image, '')
@@ -157,7 +157,7 @@ def Popular():
 #4
 def INSIDEcategorie(url):
 	url2 = url
-	r = requests.get(url)
+	r = requests.get(url, headers)
 	match = re.compile('<div class="movie-img img-box pseudo-link" data-link="(.+?)">.+?<img src="(.+?)" alt="(.+?)" />',re.DOTALL).findall(r.content)
 	next_page = re.compile('<span\sclass="pnext"><a\shref="(.+?)"><span\sclass="fa\sfa-angle-double-right"></span></a></span>').findall(r.content)
 	for url, image, name  in match:
@@ -168,7 +168,7 @@ def INSIDEcategorie(url):
 #11
 def NextPage(url):
 	#Get html content
-	r = requests.get(url)
+	r = requests.get(url, headers)
 	#Get next page link
 	next_page = re.compile('<span\sclass="pnext"><a\shref="(.+?)"><span\sclass="fa\sfa-angle-double-right"></span></a></span>').findall(r.content)
 	#Kinda convert list to string
@@ -185,7 +185,7 @@ def NextPage(url):
 def INSIDEmovie(url):
 	#Counter to print episode number
 	i = 1
-	r = requests.get(url)
+	r = requests.get(url, headers)
 	#Get source of video
 	image = re.compile('(?s)(?<=<div class=\"movie-poster\">).*?(?=<\/div>)').findall(r.content)
 	normal1 = unicode(image[0], "utf-8")
@@ -274,6 +274,7 @@ mode=None
 iconimage=None
 fanart=None
 description=None
+headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'}
 
 try:
         url=urllib.unquote_plus(params["url"])

@@ -57,12 +57,14 @@ def insidev2():
 		print url
 
 def v12():
-	r = requests.get('http://anituga.xyz/v/index.php?cstart=1&')
+	headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+	r = requests.get('http://anituga.xyz/v/index.php?cstart=1&', headers)
 	match = re.compile('<a class="item-link" href="(.+?)">.+?<img class="xfieldimage poster" src="(.+?)" alt="" />.+?<div class="item-title">(.+?)</div>',re.DOTALL).findall(r.content)
-	for  url, image, name in match:
+	#for  url, image, name in match:
 		#print name
 		#print image
-		print url
+		#print url
 		#v2(url)
+	print(r.content)
 v12()
 #cat1("http://anituga.xyz/index.php?cstart=1&do=cat&category=misterio")
