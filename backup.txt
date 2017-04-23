@@ -163,7 +163,7 @@ def INSIDEcategorie(url):
 	for url, image, name  in match:
 		addDir3(name, url, 3, image, image, '')
 	if next_page:
-		addDir("Next Page", url2, 17, '')
+		addDir("Next Page", url2, 11, '')
 	
 #11
 def NextPage(url):
