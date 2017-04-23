@@ -6,26 +6,6 @@ import urlparse
 import cgi
 import random
 
-def Random():
-	i = 1
-	number =  random.randint(0,664)
-	url_random ='http://anituga.xyz/index.php?newsid=%s'%number
-	r = requests.get(url_random)
-	image = re.compile('(?s)(?<=<div class=\"movie-poster\">).*?(?=<\/div>)').findall(r.content)
-	normal1 = unicode(image[0], "utf-8")
-	rline = unicodedata.normalize('NFC', normal1).encode('utf8','ignore')
-	regex = re.compile('<img src="(.+?)" alt="(.+?)" />',re.DOTALL).findall(str(rline))
-	
-	for image, name in regex:
-		print name
-		print image
-
-	match = re.compile('<source src="(.+?)"').findall(r.content)
-	for url in match:
-		print url
-		i += 1
-
-
 def cat1(url):
 	url2 = url
 	r = requests.get(url)
@@ -48,16 +28,20 @@ def next(url):
 		print("finish")
 
 def insidev2():
-	r = requests.get("http://anituga.xyz/v/index.php?newsid=150")
+	headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'}
+	site = "http://www.animesorion.tv/23091"
+	image ="http://3.bp.blogspot.com/-TgoHF3txaT8/VZG7-e-YWnI/AAAAAAAAavc/SB_Hv1sA0X8/s420/Dragon-Ball-Super.jpg"
+	r = requests.get(site, headers)
 	#Get the sourrce of movie in V2
-	match = re.compile('<iframe src=\"(.+?)\" scrolling=\"no\" frameborder=\"0\" width=\"890\" height=\"501\" allowfullscreen></iframe>').findall(r.content)
-	for url in match:
-		#addDir3("Episode %d"%(i), url, 1, '', '', '')
-		#Play video and put the episode number
+	match = re.compile('(?s)(?<=ul class=\"lcp_catlist\" id=\"lcp_instance_0\">).*?(?=<\/ul>)').findall(r.content)
+	_match = unicodedata.normalize('NFC', unicode(match[0], "utf-8")).encode('utf8','ignore')
+	__match = re.compile('<a href=\"(.+?)\" title=\"(.+?)\">',re.DOTALL).findall(str(_match))
+	for url, name in __match:
+		print name
 		print url
 
 def v12():
-	headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
+	headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'}
 	r = requests.get('http://anituga.xyz/v/index.php?cstart=1&', headers)
 	match = re.compile('<a class="item-link" href="(.+?)">.+?<img class="xfieldimage poster" src="(.+?)" alt="" />.+?<div class="item-title">(.+?)</div>',re.DOTALL).findall(r.content)
 	#for  url, image, name in match:
@@ -66,5 +50,5 @@ def v12():
 		#print url
 		#v2(url)
 	print(r.content)
-v12()
-#cat1("http://anituga.xyz/index.php?cstart=1&do=cat&category=misterio")
+insidev2()
+#cat1("http://anituga.xyz/index.php?cstart=1&do=cat&category=misterio")Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36

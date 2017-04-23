@@ -25,6 +25,25 @@ def MENU():
 	addDir3("Hentai", 's', 10, 'http://i.imgur.com/Xg25LSL.png','http://i.imgur.com/a3TSg6N.jpg',"Para maiores de 18 anos.")
 	addDir3("A-Z",'s',7,'http://i.imgur.com/OdwGEPM.png','http://i.imgur.com/a3TSg6N.jpg','A-Z')
 
+#18
+def InsideDBS(url):
+	image ="https://upload.wikimedia.org/wikipedia/en/thumb/7/74/Dragon_Ball_Super_Key_visual.jpg/220px-Dragon_Ball_Super_Key_visual.jpg"
+	r = requests.get(url, headers)
+	match = re.compile("<source src=\"(.+?)\" type='video/mp4' />").findall(r.content)
+	for url in match:
+		addLink("Play", url, image, '', image)
+
+#17
+def DragonBallSuper():
+	site = "http://www.animesorion.tv/23091"
+	image ="https://upload.wikimedia.org/wikipedia/en/thumb/7/74/Dragon_Ball_Super_Key_visual.jpg/220px-Dragon_Ball_Super_Key_visual.jpg"
+	r = requests.get(site, headers)
+	match = re.compile('(?s)(?<=ul class=\"lcp_catlist\" id=\"lcp_instance_0\">).*?(?=<\/ul>)').findall(r.content)
+	_match = unicodedata.normalize('NFC', unicode(match[0], "utf-8")).encode('utf8','ignore')
+	__match = re.compile('<a href=\"(.+?)\" title=\"(.+?)\">',re.DOTALL).findall(str(_match))
+	for url, name in __match:
+		addDir3(name, url, 18, image, image, '')
+
 #16
 def FilmesOcidental():
 	#Url
@@ -158,11 +177,13 @@ def Categorias():
 
 #5		
 def Popular():
+	_image ="http://3.bp.blogspot.com/-TgoHF3txaT8/VZG7-e-YWnI/AAAAAAAAavc/SB_Hv1sA0X8/s420/Dragon-Ball-Super.jpg"
 	r = requests.get('http://anituga.xyz', headers)
 	match = re.compile('<a class="carou-item img-box" href="(.+?)">.+?<img src="(.+?)" alt="(.+?)" />',re.DOTALL).findall(r.content)
+	addDir3("Dragon Ball Super (Legendado)", 's', 17, _image, _image, '')
 	for  url, image, name in match:
 		addDir3(name, url, 3, image, image, '')
-
+		
 #4
 def InsideCategory(url):
 	url2 = url
@@ -364,5 +385,11 @@ elif mode==15:
 
 elif mode==16:
 		FilmesOcidental()
+
+elif mode==17:
+		DragonBallSuper()
+
+elif mode==18:
+		InsideDBS(url)
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
