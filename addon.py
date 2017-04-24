@@ -29,9 +29,11 @@ def MENU():
 def InsideDBS(url):
 	image ="https://upload.wikimedia.org/wikipedia/en/thumb/7/74/Dragon_Ball_Super_Key_visual.jpg/220px-Dragon_Ball_Super_Key_visual.jpg"
 	r = requests.get(url, headers)
+	date = re.compile('<p>Publicado Dia: <span>(.+?)/span></p>').findall(r.content)
+	_data = ''.join(date)
 	match = re.compile("<source src=\"(.+?)\" type='video/mp4' />").findall(r.content)
 	for url in match:
-		addLink("Play", url, image, '', image)
+		addLink("Play - %s"%date, url, image, '', image)
 
 #17
 def DragonBallSuper():
