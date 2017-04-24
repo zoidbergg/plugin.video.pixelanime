@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os,requests,urllib,urllib2,re
 import sys
 import unicodedata
@@ -34,21 +35,43 @@ def insidev2():
 	r = requests.get(site, headers)
 	#Get the sourrce of movie in V2
 	match = re.compile('(?s)(?<=ul class=\"lcp_catlist\" id=\"lcp_instance_0\">).*?(?=<\/ul>)').findall(r.content)
-	_match = unicodedata.normalize('NFC', unicode(match[0], "utf-8")).encode('utf8','ignore')
+	_match = unicodedata.normalize('NFC', unicode(str(_match), "utf-8")).encode('utf8','ignore')
 	__match = re.compile('<a href=\"(.+?)\" title=\"(.+?)\">',re.DOTALL).findall(str(_match))
 	for url, name in __match:
 		print name
 		print url
 
-def v12():
+
+def InsideDBS():
 	headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'}
-	r = requests.get('http://anituga.xyz/v/index.php?cstart=1&', headers)
-	match = re.compile('<a class="item-link" href="(.+?)">.+?<img class="xfieldimage poster" src="(.+?)" alt="" />.+?<div class="item-title">(.+?)</div>',re.DOTALL).findall(r.content)
-	#for  url, image, name in match:
-		#print name
-		#print image
+	r = requests.get("http://www.animesorion.tv/", headers)
+	#next_page = re.compile('<span class="pnext"><a href="(.+?)"><span class="fa fa-angle-double-right"></span></a></span>',re.DOTALL).findall(r.content)
+	match = re.compile('(?s)(?<=<div class=\"cAlign\">).*?(?=<\/ul>)').findall(r.content)
+	#_match = re.compile('(?s)(?<=<div class=\"Titulotelinhas\">).*?(?=<\/div>)',re.DOTALL).findall(str(match))
+	#__match = re.compile('<a href="(.+?)" title="(.+?)">').findall(str(_match))
+	_match = re.compile('(?s)(?<=<div class=\"Titulotelinhas\">).*?(?=<\/div>)').findall(str(match))
+	__match = re.compile('<a href="(.+?)" title="(.+?)">',re.DOTALL).findall(str(_match))
+	#image = re.compile('<img src="(.+?)" title="(.+?)" alt="(.+?)"><\/a>').findall(str(__match))
+	#for image, name2, name3 in image:
+	#	_image = image
+	for url, name in __match:
+		#name2 = unicodedata.bidirectional('NFC', "Epis\\\\xc3\\\\xb3dio", "utf-8").decode('utf8','ignore')
+		
+		print name.decode('utf-8')
 		#print url
-		#v2(url)
-	print(r.content)
-insidev2()
-#cat1("http://anituga.xyz/index.php?cstart=1&do=cat&category=misterio")Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36
+		#addDir3(name, url, 9, '', '', '')
+#InsideDBS()
+
+#print u"%s"%name.encode('raw_unicode_escape').decode('utf-8')
+
+r = requests.get("http://www.animesorion.tv/page/3")
+match = re.compile('(?s)(?<=<div class=\"cAlign\">).*?(?=<\/ul>)',re.DOTALL).findall(r.content)
+image = re.compile('<img src="(.+?)"').findall(str(match))
+_match = re.compile('(?s)(?<=<div class=\"Titulotelinhas\">).*?(?=<\/div>)',re.DOTALL).findall(str(match))
+__match = re.compile('<a href="(.+?)" title="(.+?)">').findall(str(_match))
+
+for _image in image:
+	print _image
+	#for url, name in __match:
+		#addDir3(name, url, 9, '', __image, '')
+	#addDir3("Next Page", str(next_page), 19, '','http://i.imgur.com/a3TSg6N.jpg','')
