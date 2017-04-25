@@ -175,7 +175,7 @@ def CategoriasAZ():
 def Categorias():
 	r = requests.get('http://anituga.xyz', headers)
 	match = re.compile('(?s)(?<=<ul class=\"hidden-menu clearfix\">).*?(?=<\/ul>)',re.DOTALL).findall(r.content)
-	date = unicodedata.normalize('NFC', unicode(date[0], "utf-8")).encode('utf8','ignore')
+	_match = unicodedata.normalize('NFC', unicode(match[0], "utf-8")).encode('utf8','ignore')
 	regex = re.compile('<a href=\"(.+?)\">(.+?)</a>',re.DOTALL).findall(str(_match))
 	for  url, name in regex:
 		addDir3(name, 'http://anituga.xyz%s'%url, 4, '','http://i.imgur.com/a3TSg6N.jpg','')
