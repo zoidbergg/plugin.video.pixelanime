@@ -3,3 +3,5 @@
 [B]1.0.1[/B]
 - Changed User-Agent!
 - Code clean up!
+[B]1.0.2[/B]
+-Added Latest Releases!
