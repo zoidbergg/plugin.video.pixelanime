@@ -23,8 +23,60 @@ def MENU():
 	addDir3("Episodios Recentes", 'http://www.animesonline.online/page/2', 8,'http://i.imgur.com/N3COLLn.png','http://i.imgur.com/a3TSg6N.jpg','Recents')
 	addDir3("Random Anime", 's', 12,'http://i.imgur.com/5awo5tw.png','http://i.imgur.com/a3TSg6N.jpg','Random')
 	addDir3("Hentai", 's', 10, 'http://i.imgur.com/Xg25LSL.png','http://i.imgur.com/a3TSg6N.jpg',"Para maiores de 18 anos.")
+	addDir3("HentaiV2", 'https://www.animakai.info/hentai/page/1', 20, 'http://i.imgur.com/Xg25LSL.png','http://i.imgur.com/a3TSg6N.jpg',"Para maiores de 18 anos.")
 	addDir3("A-Z",'s',7,'http://i.imgur.com/OdwGEPM.png','http://i.imgur.com/a3TSg6N.jpg','A-Z')
 
+####################################### HENTAI V2 ##########################################################################################
+#23
+def PlayHentaiV2(url):
+	r = requests.get(url, headers)
+	matched = re.compile(u'(?s)(?<=<div class=\"box-video visible-sm visible-xs\">).*?(?=<\/div>)', re.DOTALL | re.UNICODE).findall(r.content)
+	for match in matched:
+		_match = re.compile(u'<video alt=\"(.+?)\" controls preload=\"none\" width=\"100%\" height=\"100%\" poster=\"(.+?)\"', re.DOTALL | re.UNICODE).findall(match)
+		url = re.compile(u'<source src=\"(.+?)\"', re.DOTALL | re.UNICODE).findall(match)
+		for _url in url:
+			__url =_url
+		for name, img in _match:
+			addLink(name, __url, img, '', img)
+
+#22
+def InsideHentaiV2(url):
+	r = requests.get(url, headers)
+	in_page="https://www.animakai.info"
+	matched = re.compile(u'(?s)(?<=<div class=\"nome-thumb\">).*?(?=<\/div>)', re.DOTALL | re.UNICODE).findall(r.content)
+	for match in matched:
+		_match = re.compile(u'<a href="(.+?)" title="(.+?)" class="tt">', re.DOTALL | re.UNICODE).findall(match)
+		img = re.compile(u'<img src="(.+?)" alt="" class="img-full" />', re.DOTALL | re.UNICODE).findall(match) 
+		for _img in img:
+			__img = ''.join(_img)
+		for url, name in _match:
+			_next_page = in_page + url
+			#__next_page = ''.join(_next_page)
+			addDir3(name, _next_page, 23, __img, __img, '')
+#21	
+def NextPageHentaiV2(url):
+	r = requests.get(url, headers)
+	HentaiV2(url)
+
+#20
+def HentaiV2(url):
+	r = requests.get(url, headers)
+	next_pageID = (url.rsplit('/', 1)[-1])
+	s = int(next_pageID) + 1
+	next_page = "https://www.animakai.info/hentai/page/%d"%s
+	in_page="https://www.animakai.info"
+	matched = re.compile(u'(?s)(?<=<div class=\"nome-thumb-anime\">).*?(?=<\/div>)', re.DOTALL | re.UNICODE).findall(r.content)
+	for match in matched:
+		img = re.compile(u'<img src="(.+?)" alt="" class="img-full" />', re.DOTALL | re.UNICODE).findall(match)
+		_match = re.compile(u'<a href="(.+?)" title="(.+?)" class="thumb">', re.DOTALL | re.UNICODE).findall(match)
+		for _img in img:
+			__img = ''.join(_img)
+		for url, name in _match:
+			_url = in_page + url
+			addDir3(name, _url, 22, __img, __img, '')
+	if next_page:
+		addDir3("Next Page", next_page, 21,'','http://i.imgur.com/a3TSg6N.jpg','')
+###################################################################################################################################################################
 #18
 def InsideDBS(url):
 	image ="https://upload.wikimedia.org/wikipedia/en/thumb/7/74/Dragon_Ball_Super_Key_visual.jpg/220px-Dragon_Ball_Super_Key_visual.jpg"
@@ -399,5 +451,17 @@ elif mode==18:
 
 elif mode==19:
 		NextPageV2(url)
+
+elif mode==20:
+		HentaiV2(url)
+
+elif mode==21:
+		NextPageHentaiV2(url)
+
+elif mode==22:
+		InsideHentaiV2(url)
+
+elif mode==23:
+		PlayHentaiV2(url)
 
 xbmcplugin.endOfDirectory(int(sys.argv[1]))
