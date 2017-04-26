@@ -8,7 +8,6 @@ import cgi
 import random
 headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'}
 def HentaiV2():
-	
 	url = "https://www.animakai.info/hentai/page/1"
 	r = requests.get(url, headers)
 	next_pageID = (url.rsplit('/', 1)[-1])
@@ -56,5 +55,6 @@ def PlayHentaiV2(url):
 		for _url in url:
 			print _url
 
+			
 url=None
 InsideHentaiV2()
