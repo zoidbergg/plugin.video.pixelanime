@@ -20,7 +20,7 @@ def MENU():
 	addDir3("Series Ocidentais",'s',14,'http://i.imgur.com/eZXUVgX.png','http://i.imgur.com/a3TSg6N.jpg','')
 	addDir3("Filmes Orientais",'s',15,'http://i.imgur.com/iy0spNY.png','http://i.imgur.com/a3TSg6N.jpg','')
 	addDir3("Filmes Ocidentais",'s',16,'http://i.imgur.com/eZXUVgX.png','http://i.imgur.com/a3TSg6N.jpg','')
-	addDir3("Episodios Recentes", 'http://www.animesonline.online/page/2', 8,'http://i.imgur.com/N3COLLn.png','http://i.imgur.com/a3TSg6N.jpg','Recents')
+	addDir3("Episodios Recentes", 'http://www.animesonline.online/page/1', 8,'http://i.imgur.com/N3COLLn.png','http://i.imgur.com/a3TSg6N.jpg','Recents')
 	addDir3("Random Anime", 's', 12,'http://i.imgur.com/5awo5tw.png','http://i.imgur.com/a3TSg6N.jpg','Random')
 	addDir3("Hentai", 's', 10, 'http://i.imgur.com/Xg25LSL.png','http://i.imgur.com/a3TSg6N.jpg',"Para maiores de 18 anos.")
 	addDir3("HentaiV2", 'https://www.animakai.info/hentai/page/1', 20, 'http://i.imgur.com/Xg25LSL.png','http://i.imgur.com/a3TSg6N.jpg',"Para maiores de 18 anos.")
@@ -200,7 +200,7 @@ def LastEp(url):
 	next_page = "http://www.animesonline.online/page/%d"%s
 	matched = re.compile(u'(?s)(?<=<div class=\"capa\">).*?(?=</a>)', re.DOTALL).findall(r.content) 
 	for match in matched: 
-		_match = re.compile(u'<img style="display: inline;" src="(.+?)" alt="(.+?)" width="204" height="123"/>', re.DOTALL).findall(match)
+		_match = re.compile(u'<img style="display: inline;" src="(.+?)" alt="(.+?)"', re.DOTALL).findall(match)
 		date = re.compile(u'<span class="Dat2">(.+?)</span>').findall(match)
 		url = re.compile(u'<a href="(.+?)">') .findall(match)
 		for img, name in _match: 

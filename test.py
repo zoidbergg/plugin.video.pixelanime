@@ -28,20 +28,21 @@ def HentaiV2():
 	print next_page
 			
 def InsideHentaiV2():
-	r = requests.get("https://www.animakai.info/hentai/kanojo-ga-nekomimi-ni-kigaetara", headers)
-	next_page="https://www.animakai.info"
-	matched = re.compile(u'(?s)(?<=<div class=\"nome-thumb\">).*?(?=<\/div>)', re.DOTALL | re.UNICODE).findall(r.content)
-	for match in matched:
-		_match = re.compile(u'<a href="(.+?)" title="(.+?)" class="tt">', re.DOTALL | re.UNICODE).findall(match)
-		img = re.compile(u'<img src="(.+?)" alt="" class="img-full" />', re.DOTALL | re.UNICODE).findall(match) 
-		for url, name in _match:
-			#print name
-			_next_page = next_page + url
-			print _next_page
-			PlayHentaiV2(_next_page)
-		#for _img in img:
-		#	__img = ''.join(_img)
-		#	print __img
+	url ="http://www.animesonline.online/page/1"
+	r = requests.get(url, headers)
+	next_pageID = (url.rsplit('/', 1)[-1])
+	s = int(next_pageID) + 1
+	next_page = "http://www.animesonline.online/page/%d"%s
+	matched = re.compile(u'(?s)(?<=<div class=\"capa\">).*?(?=</a>)', re.DOTALL).findall(r.content) 
+	for match in matched: 
+		_match = re.compile(u'<img style="display: inline;" src="(.+?)" alt="(.+?)"', re.DOTALL).findall(match)
+		date = re.compile(u'<span class="Dat2">(.+?)</span>').findall(match)
+		url = re.compile(u'<a href="(.+?)">') .findall(match)
+		for img, name in _match: 
+			_name= name.replace("&#8211","")
+			_date = ''.join(date)
+			url = ''.join(url)
+			print _name
 
 def PlayHentaiV2(url):
 	r = requests.get(url, headers)
