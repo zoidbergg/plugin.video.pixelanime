@@ -14,7 +14,7 @@ import random
 
 #Adicionar Menu
 def MENU():
-	addDir3("Popular",'s',5,'http://megaicons.net/static/img/icons_sizes/358/999/256/retro-star-icon.png','http://i.imgur.com/a3TSg6N.jpg','Popular')
+	addDir3("Popular",'s',5,'http://i.imgur.com/6Iwsjq0.png','http://i.imgur.com/a3TSg6N.jpg','Popular')
 	addDir3("Categorias",'s',6,'http://i.imgur.com/pTcI3jz.png','http://i.imgur.com/a3TSg6N.jpg','Categorias.')
 	addDir3("Series Orientais",'s',13,'http://i.imgur.com/iy0spNY.png','http://i.imgur.com/a3TSg6N.jpg','')
 	addDir3("Series Ocidentais",'s',14,'http://i.imgur.com/eZXUVgX.png','http://i.imgur.com/a3TSg6N.jpg','')
