@@ -25,8 +25,7 @@ def MENU():
 	addDir3("Hentai", 's', 10, 'http://i.imgur.com/Xg25LSL.png','http://i.imgur.com/a3TSg6N.jpg',"Para maiores de 18 anos.")
 	addDir3("HentaiV2", 'https://www.animakai.info/hentai/page/1', 20, 'http://i.imgur.com/Xg25LSL.png','http://i.imgur.com/a3TSg6N.jpg',"Para maiores de 18 anos.")
 	addDir3("A-Z",'s',7,'http://i.imgur.com/OdwGEPM.png','http://i.imgur.com/a3TSg6N.jpg','A-Z')
-
-####################################### HENTAI V2 ##########################################################################################
+####################################### HENTAI V2 ##########################################################################
 #23
 def PlayHentaiV2(url):
 	r = requests.get(url, headers)
@@ -38,7 +37,6 @@ def PlayHentaiV2(url):
 			__url =_url
 		for name, img in _match:
 			addLink(name, __url, img, '', img)
-
 #22
 def InsideHentaiV2(url):
 	r = requests.get(url, headers)
@@ -57,7 +55,6 @@ def InsideHentaiV2(url):
 def NextPageHentaiV2(url):
 	r = requests.get(url, headers)
 	HentaiV2(url)
-
 #20
 def HentaiV2(url):
 	r = requests.get(url, headers)
@@ -76,20 +73,19 @@ def HentaiV2(url):
 			addDir3(name, _url, 22, __img, __img, '')
 	if next_page:
 		addDir3("Next Page", next_page, 21,'','http://i.imgur.com/a3TSg6N.jpg','')
-#############################################################################################################################################
+#############################################################################################################################
 #18
 def InsideDBS(url):
 	image ="https://upload.wikimedia.org/wikipedia/en/thumb/7/74/Dragon_Ball_Super_Key_visual.jpg/220px-Dragon_Ball_Super_Key_visual.jpg"
 	r = requests.get(url, headers)
-	date = re.compile('<p>Publicado Dia: <span>(.+?)/span></p>').findall(r.content)
-	_date = unicodedata.normalize('NFC', unicode(date[0], "utf-8")).encode('utf8','ignore')
-	thumbnail = re.compile('<meta property="og:image" content="(.+?)"\/>').findall(r.content)
+	date = re.compile(u'<p>Publicado Dia: <span>(.+?)/span></p>').findall(r.content)
+	_date = ''.join(date)
+	thumbnail = re.compile(u'<meta property="og:image" content="(.+?)"\/>').findall(r.content)
 	match = re.compile("<source src=\"(.+?)\" type='video/mp4' />").findall(r.content)
 	for _thumbnail in thumbnail:
 		__thumbnail = _thumbnail
 	for url in match:
 		addLink("Play - %s"%_date, url, __thumbnail, '', image)
-		#addDir(date, '','','')
 #17
 def DragonBallSuper():
 	site = "http://www.animesorion.tv/23091"
@@ -100,7 +96,6 @@ def DragonBallSuper():
 	__match = re.compile('<a href=\"(.+?)\" title=\"(.+?)\">',re.DOTALL).findall(str(_match))
 	for url, name in __match:
 		addDir3(name, url, 18, image, image, '')
-
 #16
 def FilmesOcidental():
 	#Url
@@ -115,7 +110,6 @@ def FilmesOcidental():
 	#Checks if next_page is empty, if there is a next page add a directory 
 	if next_page:
 		addDir3("Next Page", site, 11,'','http://i.imgur.com/a3TSg6N.jpg','')
-
 #15
 def FilmesOriental():
 
@@ -127,7 +121,6 @@ def FilmesOriental():
 		addDir3(name, url, 3, image, image, '')
 	if next_page:
 		addDir3("Next Page", site, 11,'','http://i.imgur.com/a3TSg6N.jpg','')
-
 #14
 def SeriesOcidental():
 	site = "http://anituga.xyz/series-ocidentais"
@@ -138,7 +131,6 @@ def SeriesOcidental():
 		addDir3(name, url, 3, image, image, '')
 	if next_page:
 		addDir3("Next Page", site, 11,'','http://i.imgur.com/a3TSg6N.jpg','')
-
 #13
 def SeriesOriental():
 	site = "http://anituga.xyz/series-orientais"
@@ -149,7 +141,6 @@ def SeriesOriental():
 		addDir3(name, url, 3, image, image, '')
 	if next_page:
 		addDir3("Next Page", site, 11,'','http://i.imgur.com/a3TSg6N.jpg','')
-
 #12
 def Random():
 	#Generate a random number from 5 to 664
@@ -158,7 +149,6 @@ def Random():
 	url_random ='http://anituga.xyz/index.php?newsid=%s'%number
 	#Call a function to process the random movie link
 	InsideMovie(url_random)
-
 #10
 def Hentai():
 	site = "http://anituga.xyz/index.php?cstart=1&do=cat&category=hentai"
@@ -169,13 +159,11 @@ def Hentai():
 		addDir3(name, url, 3, image, image, '')
 	if next_page:
 		addDir3("Next Page", site, 11,'','http://i.imgur.com/a3TSg6N.jpg','')
-
-################################ RECENTS ######################################################################################
+################################ RECENTS #####################################################################################
 #19
 def NextPageV2(url):
 	r = requests.get(url, headers)
 	LastEp(url)
-
 #9
 def InsideMovieV2(url):
 	r = requests.get(url, headers)
@@ -210,7 +198,6 @@ def LastEp(url):
 			addDir3(str(_date)+" | "+str(_name), url, 9, img, img, '')
 	addDir3("Next Page", str(next_page), 19, '','http://i.imgur.com/a3TSg6N.jpg','')
 ###############################################################################################################################
-
 #7
 def CategoriasAZ():
 	r = requests.get('http://anituga.xyz', headers)
@@ -222,7 +209,6 @@ def CategoriasAZ():
 	regex = re.compile('<a href=\"(.+?)\">(.+?)</a>',re.DOTALL).findall(str(_match))
 	for  url, name in regex:
 		addDir3(name, 'http://anituga.xyz%s'%url, 4, '','http://i.imgur.com/a3TSg6N.jpg','')
-	
 #6
 def Categorias():
 	r = requests.get('http://anituga.xyz', headers)
@@ -231,16 +217,26 @@ def Categorias():
 	regex = re.compile('<a href=\"(.+?)\">(.+?)</a>',re.DOTALL).findall(str(_match))
 	for  url, name in regex:
 		addDir3(name, 'http://anituga.xyz%s'%url, 4, '','http://i.imgur.com/a3TSg6N.jpg','')
-
 #5		
 def Popular():
 	r = requests.get('http://anituga.xyz', headers)
-	image ="https://upload.wikimedia.org/wikipedia/en/thumb/7/74/Dragon_Ball_Super_Key_visual.jpg/220px-Dragon_Ball_Super_Key_visual.jpg"
+	imageDB ="https://upload.wikimedia.org/wikipedia/en/thumb/7/74/Dragon_Ball_Super_Key_visual.jpg/220px-Dragon_Ball_Super_Key_visual.jpg"
 	match = re.compile('<a class="carou-item img-box" href="(.+?)">.+?<img src="(.+?)" alt="(.+?)" />',re.DOTALL).findall(r.content)
-	addDir3("Dragon Ball Super (Legendado)", 'dbs', 17, image, image,'' )
+	#DB Legendado
+	addDir3("Dragon Ball Super (Legendado)", 'dbs', 17, imageDB, imageDB,'' )
+	#TOP DOBRADOS
+	matchedTOP1 = re.compile(u'<div class=\"skoro-img img-box pseudo-link\" data-link=\"(.+?)\">.+?<img src=\"(.+?)\" alt=\"(.+?)\" />', re.DOTALL).findall(r.content)
+	for url1, img1, name1 in matchedTOP1:
+		addDir3(name1, url1, 3, img1, img1, '')
+	#TOP LEGENDADOS
+	matchedTOP2 = re.compile(u'(?s)(?<=<div id=\"owl-carouside\">).*?(?=<div class=\"sidebox\">)', re.DOTALL).findall(r.content)
+	for _match in matchedTOP2: 
+		__match = re.compile(u'<a class="carouside-item" href="(.+?)">.+?<img src="(.+?)" alt="(.+?)" />', re.DOTALL).findall(_match)
+		for _url, _img, _name in __match:
+			addDir3(_name, _url, 3, _img, _img, '')
+	#Normal
 	for  url, image, name in match:
 		addDir3(name, url, 3, image, image, '')
-		
 #4
 def InsideCategory(url):
 	url2 = url
@@ -251,7 +247,6 @@ def InsideCategory(url):
 		addDir3(name, url, 3, image, image, '')
 	if next_page:
 		addDir3("Next Page", url2, 11, '','http://i.imgur.com/a3TSg6N.jpg','')
-	
 #11
 def NextPage(url):
 	#Get html content
@@ -267,7 +262,6 @@ def NextPage(url):
 	#Verify if link exists
 	if next_page2:
 		InsideCategory(next_page2)
-
 #3 
 def InsideMovie(url):
 	#Counter to print episode number
@@ -286,12 +280,9 @@ def InsideMovie(url):
 		#Play video and put the episode number
 		addLink(name+" - Episode %d"%(i), url, image2, '', image2)
 		i += 1
-
 #1 Function to play video
 def PLAY(url):
-		addLink(url, url, '', '', '')
-
-
+	addLink(url, url, '', '', '')
 #PLAY VIDEO		
 def addLink(name,url,image,urlType,fanart):
         ok=True
@@ -300,7 +291,6 @@ def addLink(name,url,image,urlType,fanart):
         liz.setProperty('IsPlayable','true')
 	liz.setProperty('fanart_image', fanart)
 	ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=url,listitem=liz)
-
 								
 def get_params():
         param=[]
@@ -319,7 +309,6 @@ def get_params():
                                 param[splitparams[0]]=splitparams[1]
                                 
         return param       
-
 #Functions to Add directories  
 def addDir(name,url,mode,iconimage):
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
@@ -328,7 +317,6 @@ def addDir(name,url,mode,iconimage):
         liz.setInfo( type="Video", infoLabels={ "Title": name } )
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
         return ok
-     
 def addDir2(name,url,mode,iconimage):
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
         ok=True
@@ -336,7 +324,6 @@ def addDir2(name,url,mode,iconimage):
         liz.setInfo( type="Video", infoLabels={ "Title": name } )
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=False)
         return ok     
-
 def addDir3(name,url,mode,iconimage,fanart,description):
         u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)+"&iconimage="+urllib.quote_plus(iconimage)+"&fanart="+urllib.quote_plus(fanart)+"&description="+urllib.quote_plus(description)
         ok=True
@@ -346,7 +333,6 @@ def addDir3(name,url,mode,iconimage,fanart,description):
         ok=xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]),url=u,listitem=liz,isFolder=True)
         return ok
 ##################################################################################################################
-
 def setView(content, viewType):
     # set content type so library shows more views and info
     if content:
