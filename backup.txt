@@ -80,12 +80,12 @@ def InsideDBS(url):
 	r = requests.get(url, headers)
 	date = re.compile(u'<p>Publicado Dia: <span>(.+?)/span></p>').findall(r.content)
 	_date = ''.join(date)
-	thumbnail = re.compile(u'<meta property="og:image" content="(.+?)"\/>').findall(r.content)
+	#thumbnail = re.compile(u'<meta property="og:image" content="(.+?)"\/>').findall(r.content)
 	match = re.compile("<source src=\"(.+?)\" type='video/mp4' />").findall(r.content)
-	for _thumbnail in thumbnail:
-		__thumbnail = _thumbnail
+	#for _thumbnail in thumbnail:
+	#	__thumbnail = _thumbnail
 	for url in match:
-		addLink("Play - %s"%_date, url, __thumbnail, '', image)
+		addLink("Play - %s"%_date, url, image, '', image)
 #17
 def DragonBallSuper():
 	site = "http://www.animesorion.tv/23091"
